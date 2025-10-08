@@ -12,7 +12,8 @@ Inspired by Charles Darwin, the best measure for excellence is competition. To b
 5. All scores are normalised so that every judge awards 5 points on average.
 6. Each answer then receives the average of all scores. (Keep mean and std, maybe we can use std later too.)
 7. Then each player receives a score that is equal to the average score across all their answers.
-8. Compute constraints: To ensure fairness, we limit compute costs (e.g., tokens or API cost). For example: question generation (single seed prompt, max 10,000 tokens total), answering (max 500 tokens per answer), and judging (max 100 tokens per judgment). These limits are configurable.
+
+**Development mode:** For testing and development, drastically reduce the number of players, questions, and token limits (e.g., 2–3 players, 3–10 questions each, 50–100 tokens per answer/judgment). This allows for fast, low-cost iteration and running hundreds of tests without significant expense.
 # Backlog / Future Ideas
 
 - Diversity bonus: Reward players for generating diverse questions or answers, possibly using clustering or semantic similarity metrics.
