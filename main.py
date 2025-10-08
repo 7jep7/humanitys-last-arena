@@ -120,6 +120,7 @@ df_p = pd.DataFrame([
 ])
 print(df_p.to_string(index=False))
 
+
 # Optional: Box and whisker plot for answer scores
 try:
     plt.figure(figsize=(10, 6))
@@ -135,3 +136,49 @@ try:
     plt.show()
 except Exception as e:
     print(f"[Plotting error] {e}")
+
+# --- Estimate OpenAI API cost ---
+print("\n--- Estimated OpenAI API Cost ---")
+# Pricing (as of Oct 2025, USD per 1K tokens):
+MODEL_PRICES = {
+    'gpt-3.5-turbo': 0.0005,  # input+output
+    'gpt-4o': 0.005,         # input+output
+    'gpt-4-turbo': 0.01,     # input+output
+}
+def get_price(model, tokens):
+    # Use base model name for price lookup
+    for k in MODEL_PRICES:
+        if k in model:
+            return MODEL_PRICES[k] * (tokens / 1000)
+    return 0.01 * (tokens / 1000)  # fallback
+
+total_cost = 0
+token_counts = []
+
+# Question generation (1 call per player)
+for player in players:
+    model = player.config['openai_model']
+    tokens = player.config.get('token_limit_question_gen', 1000)
+    total_cost += get_price(model, tokens)
+    token_counts.append((player.name, model, 'question_gen', tokens))
+
+# Answering (each player answers all questions)
+for player in players:
+    model = player.config['openai_model']
+    tokens = player.config.get('token_limit_answer', 100)
+    n_questions = len(all_questions)
+    total_cost += get_price(model, tokens * n_questions)
+    token_counts.append((player.name, model, 'answer', tokens * n_questions))
+
+# Judging (each player judges all answers except their own)
+for player in players:
+    model = player.config['openai_model']
+    tokens = player.config.get('token_limit_judgment', 100)
+    n_answers = len([a for a in answers if a[2] != player.name])
+    total_cost += get_price(model, tokens * n_answers)
+    token_counts.append((player.name, model, 'judge', tokens * n_answers))
+
+print(f"Estimated total cost: ${total_cost:.4f} USD")
+print("Breakdown:")
+for name, model, phase, tokens in token_counts:
+    print(f"  {name} ({model}) {phase}: ~{tokens} tokens")
