@@ -1,0 +1,8 @@
+# Example configuration for Humanity's Last Arena
+num_players: 3
+questions_per_player: 5
+token_limit_question_gen: 1000
+token_limit_answer: 100
+token_limit_judgment: 100
+openai_api_key: "YOUR_OPENAI_API_KEY_HERE"
+mode: development

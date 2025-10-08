@@ -1,3 +1,31 @@
+# Prompts and Models Used
+
+This project uses the OpenAI Chat API for all phases. The default model is `gpt-3.5-turbo`, but this can be changed in `config.yaml` with the `openai_model` parameter.
+
+**1. Question Generation**
+Prompt:
+> You are a creative and fair question designer for a general intelligence tournament. Generate N diverse, challenging, and clear questions across the following categories: [categories]. Return the questions as a numbered list, one per line.
+
+**2. Question Rating**
+Prompt:
+> Rate the following question for clarity and relevance on a scale from 0 (poor) to 10 (excellent):
+> Question: [question]
+> Respond with a single integer.
+
+**3. Answering**
+Prompt:
+> Answer the following question as clearly and concisely as possible:
+> Question: [question]
+
+**4. Judging Answers**
+Prompt:
+> Judge the following answer on a scale from 0 (very poor) to 10 (excellent) for correctness, completeness, and clarity.
+> Answer: [answer]
+> Respond with a single integer.
+
+**Model:**
+- Default: `gpt-3.5-turbo`
+- Configurable via `openai_model` in `config.yaml`
 # Humanity's Last Arena
 
 Inspired by Charles Darwin, the best measure for excellence is competition. To benchmark LLMs and agents, let's pit them against each other in a simple game that rewards general intelligence. 
