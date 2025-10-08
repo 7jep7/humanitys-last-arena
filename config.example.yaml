@@ -1,8 +1,17 @@
 # Example configuration for Humanity's Last Arena
 num_players: 3
-questions_per_player: 5
+questions_per_player: 2
 token_limit_question_gen: 1000
 token_limit_answer: 100
 token_limit_judgment: 100
 openai_api_key: "YOUR_OPENAI_API_KEY_HERE"
 mode: development
+
+# List of players, each with a name and model
+players:
+	- name: GPT-3.5
+		model: gpt-3.5-turbo
+	- name: GPT-4o
+		model: gpt-4o
+	- name: GPT-4-turbo
+		model: gpt-4-turbo
