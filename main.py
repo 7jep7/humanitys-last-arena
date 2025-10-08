@@ -55,21 +55,31 @@ import statistics
 
 print("\n--- Aggregated Results ---")
 
-# Aggregate question ratings
-print("\nAverage question ratings:")
-avg_question_ratings = {}
-for q, ratings in question_ratings.items():
-    avg = statistics.mean(ratings.values()) if ratings else 0
-    avg_question_ratings[q] = avg
-    print(f"'{q}': {avg:.2f}")
 
-# Aggregate answer scores
-print("\nAverage answer scores:")
+# Aggregate question ratings (mean and std)
+print("\nAverage question ratings (mean ± std):")
+avg_question_ratings = {}
+std_question_ratings = {}
+for q, ratings in question_ratings.items():
+    values = list(ratings.values())
+    avg = statistics.mean(values) if values else 0
+    std = statistics.stdev(values) if len(values) > 1 else 0
+    avg_question_ratings[q] = avg
+    std_question_ratings[q] = std
+    print(f"'{q}': {avg:.2f} ± {std:.2f}")
+
+
+# Aggregate answer scores (mean and std)
+print("\nAverage answer scores (mean ± std):")
 avg_answer_scores = {}
+std_answer_scores = {}
 for (q, answerer), scores in answer_judgments.items():
-    avg = statistics.mean(scores.values()) if scores else 0
+    values = list(scores.values())
+    avg = statistics.mean(values) if values else 0
+    std = statistics.stdev(values) if len(values) > 1 else 0
     avg_answer_scores[(q, answerer)] = avg
-    print(f"Answer to '{q}' by {answerer}: {avg:.2f}")
+    std_answer_scores[(q, answerer)] = std
+    print(f"Answer to '{q}' by {answerer}: {avg:.2f} ± {std:.2f}")
 
 # Aggregate player scores (mean of their answers' scores)
 print("\nPlayer scores (mean of their answers' scores):")
